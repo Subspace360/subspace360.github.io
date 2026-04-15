@@ -1,79 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>iOS Style Button</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>iOS Style App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-    body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #dfe9f3, #ffffff);
-    }
+body {
+  height: 100vh;
+  background: linear-gradient(180deg, #eaf2ff, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .card {
-      backdrop-filter: blur(20px);
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 30px;
-      padding: 40px;
-      box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.1),
-        inset 0 1px 1px rgba(255,255,255,0.6);
-      text-align: center;
-    }
+/* ===== Fake iOS Screen ===== */
+.phone {
+  width: 320px;
+  height: 640px;
+  border-radius: 40px;
+  background: linear-gradient(180deg, #f8fbff, #e9f0ff);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+  overflow: hidden;
+  position: relative;
+}
 
-    h1 {
-      margin-bottom: 20px;
-      font-weight: 600;
-      color: #333;
-    }
+/* ===== Status Bar ===== */
+.status-bar {
+  height: 30px;
+  padding: 5px 12px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
+}
 
-    .ios-button {
-      display: inline-block;
-      padding: 15px 30px;
-      font-size: 18px;
-      font-weight: 500;
-      color: white;
-      text-decoration: none;
-      border-radius: 999px;
-      background: linear-gradient(180deg, #4facfe, #007aff);
-      box-shadow:
-        0 5px 15px rgba(0, 122, 255, 0.4),
-        inset 0 1px 2px rgba(255,255,255,0.5);
-      transition: all 0.2s ease;
-    }
+.status-icons {
+  display: flex;
+  gap: 6px;
+}
 
-    .ios-button:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow:
-        0 8px 20px rgba(0, 122, 255, 0.5),
-        inset 0 1px 2px rgba(255,255,255,0.6);
-    }
+/* ===== App Area ===== */
+.app {
+  padding: 20px;
+  text-align: center;
+}
 
-    .ios-button:active {
-      transform: scale(0.97);
-      box-shadow:
-        inset 0 3px 8px rgba(0,0,0,0.2);
-    }
-  </style>
+/* ===== Glass Card ===== */
+.card {
+  margin-top: 60px;
+  padding: 25px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.1),
+    inset 0 1px 1px rgba(255,255,255,0.6);
+  animation: fadeIn 0.8s ease;
+}
+
+/* ===== App Icon ===== */
+.icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 22px;
+  margin: 0 auto 15px;
+  background: linear-gradient(180deg, #4facfe, #007aff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: white;
+  box-shadow: 
+    0 10px 20px rgba(0,122,255,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.5);
+  animation: popIn 0.6s ease;
+}
+
+/* ===== Button ===== */
+.button {
+  margin-top: 20px;
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  background: linear-gradient(180deg, #34c759, #28a745);
+  box-shadow: 0 6px 15px rgba(52,199,89,0.4);
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.button:active {
+  transform: scale(0.95);
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.2);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0;}
+  100% { transform: scale(1); opacity: 1;}
+}
+
+/* ===== Bottom Home Indicator ===== */
+.home-bar {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.2);
+}
+
+</style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>Play a Game</h1>
-    <a class="ios-button" href="https://subspace360.github.io/rock-paper-scissors/" target="_blank">
-      Open Rock Paper Scissors
-    </a>
+
+<div class="phone">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div>9:41</div>
+    <div class="status-icons">
+      📶 🔋
+    </div>
   </div>
+
+  <!-- App Content -->
+  <div class="app">
+    <div class="card">
+      
+      <div class="icon">🎮</div>
+      
+      <h2>Rock Paper Scissors</h2>
+      <p style="margin-top:8px; color:#555;">Play instantly in your browser</p>
+
+      <a class="button" href="https://subspace360.github.io/rock-paper-scissors/" target="_blank">
+        Open Game
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Home Indicator -->
+  <div class="home-bar"></div>
+
+</div>
+
 </body>
 </html>
