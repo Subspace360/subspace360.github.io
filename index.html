@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>iOS Style Button</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #dfe9f3, #ffffff);
+    }
+
+    .card {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        inset 0 1px 1px rgba(255,255,255,0.6);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .ios-button {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: 500;
+      color: white;
+      text-decoration: none;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #4facfe, #007aff);
+      box-shadow:
+        0 5px 15px rgba(0, 122, 255, 0.4),
+        inset 0 1px 2px rgba(255,255,255,0.5);
+      transition: all 0.2s ease;
+    }
+
+    .ios-button:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow:
+        0 8px 20px rgba(0, 122, 255, 0.5),
+        inset 0 1px 2px rgba(255,255,255,0.6);
+    }
+
+    .ios-button:active {
+      transform: scale(0.97);
+      box-shadow:
+        inset 0 3px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Play a Game</h1>
+    <a class="ios-button" href="https://subspace360.github.io/rock-paper-scissors/" target="_blank">
+      Open Rock Paper Scissors
+    </a>
+  </div>
+</body>
+</html>
