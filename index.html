@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>iOS Style App</title>
+<title>iOS App Simulation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,21 +15,21 @@
 
 body {
   height: 100vh;
-  background: linear-gradient(180deg, #eaf2ff, #ffffff);
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #111;
 }
 
-/* ===== Fake iOS Screen ===== */
+/* ===== Phone Frame ===== */
 .phone {
   width: 320px;
   height: 640px;
   border-radius: 40px;
-  background: linear-gradient(180deg, #f8fbff, #e9f0ff);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
   overflow: hidden;
+  background: #000;
   position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
 }
 
 /* ===== Status Bar ===== */
@@ -39,50 +39,80 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #000;
-  font-weight: 500;
+  color: white;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
 }
 
-.status-icons {
+/* ===== Screens ===== */
+.screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+}
+
+/* Home Screen */
+.home {
+  background: linear-gradient(180deg, #4facfe, #00f2fe);
   display: flex;
-  gap: 6px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
 }
 
-/* ===== App Area ===== */
+/* App Screen */
 .app {
-  padding: 20px;
-  text-align: center;
+  background: linear-gradient(180deg, #f8fbff, #e9f0ff);
+  transform: translateX(100%);
+  padding: 60px 20px;
 }
 
-/* ===== Glass Card ===== */
+/* Active state */
+.open .home {
+  transform: translateX(-100%);
+}
+.open .app {
+  transform: translateX(0);
+}
+
+/* ===== App Icon ===== */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.app-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ff9a9e, #fad0c4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: white;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.app-icon:active {
+  transform: scale(0.85);
+}
+
+/* ===== Card ===== */
 .card {
   margin-top: 60px;
   padding: 25px;
   border-radius: 25px;
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(20px);
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.1),
-    inset 0 1px 1px rgba(255,255,255,0.6);
-  animation: fadeIn 0.8s ease;
-}
-
-/* ===== App Icon ===== */
-.icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 22px;
-  margin: 0 auto 15px;
-  background: linear-gradient(180deg, #4facfe, #007aff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  color: white;
-  box-shadow: 
-    0 10px 20px rgba(0,122,255,0.4),
-    inset 0 2px 4px rgba(255,255,255,0.5);
-  animation: popIn 0.6s ease;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: fadeIn 0.6s ease;
 }
 
 /* ===== Button ===== */
@@ -99,27 +129,20 @@ body {
   transition: all 0.2s ease;
 }
 
-.button:hover {
-  transform: scale(1.05);
-}
-
 .button:active {
   transform: scale(0.95);
-  box-shadow: inset 0 3px 8px rgba(0,0,0,0.2);
 }
 
-/* ===== Animations ===== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: translateY(0);}
+/* ===== Back Button ===== */
+.back {
+  position: absolute;
+  top: 35px;
+  left: 15px;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-@keyframes popIn {
-  0% { transform: scale(0.6); opacity: 0;}
-  100% { transform: scale(1); opacity: 1;}
-}
-
-/* ===== Bottom Home Indicator ===== */
+/* ===== Home Indicator ===== */
 .home-bar {
   position: absolute;
   bottom: 8px;
@@ -128,44 +151,78 @@ body {
   width: 120px;
   height: 5px;
   border-radius: 10px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.6);
 }
 
+/* Animations */
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}
 </style>
 </head>
 
 <body>
 
-<div class="phone">
+<div class="phone" id="phone">
 
   <!-- Status Bar -->
   <div class="status-bar">
     <div>9:41</div>
-    <div class="status-icons">
-      📶 🔋
+    <div>📶 🔋</div>
+  </div>
+
+  <!-- HOME SCREEN -->
+  <div class="screen home">
+    <div class="icon-grid">
+      <div class="app-icon" onclick="openApp()">🎮</div>
     </div>
   </div>
 
-  <!-- App Content -->
-  <div class="app">
+  <!-- APP SCREEN -->
+  <div class="screen app">
+    <div class="back" onclick="closeApp()">←</div>
+
     <div class="card">
-      
-      <div class="icon">🎮</div>
-      
       <h2>Rock Paper Scissors</h2>
-      <p style="margin-top:8px; color:#555;">Play instantly in your browser</p>
+      <p style="margin-top:8px; color:#555;">Play instantly</p>
 
       <a class="button" href="https://subspace360.github.io/rock-paper-scissors/" target="_blank">
         Open Game
       </a>
-
     </div>
   </div>
 
-  <!-- Home Indicator -->
   <div class="home-bar"></div>
 
 </div>
+
+<!-- Sound -->
+<audio id="clickSound">
+  <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function openApp() {
+  document.getElementById("phone").classList.add("open");
+  playFeedback();
+}
+
+function closeApp() {
+  document.getElementById("phone").classList.remove("open");
+  playFeedback();
+}
+
+function playFeedback() {
+  // Sound
+  document.getElementById("clickSound").play();
+
+  // Vibration (if supported)
+  if (navigator.vibrate) {
+    navigator.vibrate(30);
+  }
+}
+</script>
 
 </body>
 </html>
